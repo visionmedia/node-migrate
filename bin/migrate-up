@@ -25,7 +25,7 @@ program
   .option('--migrations-dir <dir>', 'Change the migrations directory name', 'migrations')
   .option('--matches <glob>', 'A glob pattern to filter migration files', '*')
   .option('--compiler <ext:module>', 'Use the given module to compile files')
-  .option('--env [name...]', 'Use dotenv to load an environment file')
+  .option('--env [name]', 'Use dotenv to load an environment file')
   .parse(process.argv)
 const opts = program.opts()
 
@@ -34,7 +34,7 @@ process.chdir(opts.chdir)
 // Setup environment
 if (opts.env) {
   const e = dotenv.config({
-    path: opts.env
+    path: typeof opts.env === 'string' ? opts.env : '.env'
   })
   if (e && e.error instanceof Error) {
     throw e.error
